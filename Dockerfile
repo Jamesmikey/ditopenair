@@ -1,6 +1,6 @@
 FROM rstudio/plumber
 MAINTAINER aqi.ditnet.ac.tz
 
-RUN R -e "install.packages('openair', lib='/etc/R/Renviron')"
+RUN R -e "install.packages('openair', lib='./lib')"
 
 CMD ["/ditopenair/main.R"]
