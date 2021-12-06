@@ -3,4 +3,6 @@ MAINTAINER Docker User <jamesmichaely@gmail.com>
 
 RUN R -e "install.packages('openair')"
 
+RUN R -e "library('openair')"
+
 CMD ["/app/plumber.R"]
