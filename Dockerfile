@@ -9,6 +9,9 @@ RUN apt-get update -qq && apt-get install -y \
 # install plumber
 RUN R -e "install.packages('plumber')"
 
+#install openair
+RUN R -e "install.packages('openair')"
+
 # copy everything from the current directory into the container
 COPY / /
 
