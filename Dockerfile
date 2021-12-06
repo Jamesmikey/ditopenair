@@ -10,6 +10,9 @@ RUN apt-get update -qq && apt-get install -y \
 #install plumber
 RUN R -e "install.packages('plumber')"
 
+#install devtools
+RUN R -e "install.packages('devtools')"
+
 # install openair
 RUN R -e "require(devtools)"
 RUN R -e "install_github('davidcarslaw/openair')"
