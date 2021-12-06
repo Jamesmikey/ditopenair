@@ -1,14 +1,5 @@
-# start from the rocker/r-ver:3.5.0 image
-FROM rocker/r-ver:3.5.0
-
-# install the linux libraries needed for plumber
-RUN apt-get update -qq && apt-get install -y \
-  libssl-dev \
-  libcurl4-gnutls-dev
-
-
-#install plumber
-RUN R -e "install.packages('plumber')"
+# start plumber
+FROM trestletech/plumber
 
 #install devtools
 RUN R -e "install.packages('devtools')"
@@ -17,13 +8,14 @@ RUN R -e "install.packages('devtools')"
 RUN R -e "require(devtools)"
 RUN R -e "install_github('davidcarslaw/openair')"
 
+# copy model and scoring script
+RUN mkdir /app
 
+COPY main.R /app
 
-# copy everything from the current directory into the container
-COPY / /
+WORKDIR /app
 
-# open port 80 to traffic
-EXPOSE 80
-
-# when the container starts, start the main.R script
-ENTRYPOINT ["Rscript", "main.R"]
+# plumb and run server
+EXPOSE 8000
+ENTRYPOINT ["R", "-e", \
+    "pr <- plumber::plumb('/app/main.R'); pr$run(host='0.0.0.0', port=8080)"]
