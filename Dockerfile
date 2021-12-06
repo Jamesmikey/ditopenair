@@ -5,4 +5,6 @@ RUN R -e "install.packages('openair')"
 
 RUN R -e "library('openair')"
 
-CMD ["/app/plumber.R"]
+COPY main.R /app
+
+CMD ["/app/main.R"]
