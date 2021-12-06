@@ -6,12 +6,15 @@ RUN apt-get update -qq && apt-get install -y \
   libssl-dev \
   libcurl4-gnutls-dev
 
-# install plumber
+
+#install plumber
+RUN R -e "install.packages('plumber')"
+
+# install openair
 RUN R -e "require(devtools)"
 RUN R -e "install_github('davidcarslaw/openair')"
 
-#install openair
-RUN R -e "install.packages('openair')"
+
 
 # copy everything from the current directory into the container
 COPY / /
