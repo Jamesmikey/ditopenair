@@ -7,6 +7,7 @@ RUN R -e "install.packages('devtools')"
 # install openair
 RUN R -e "require(devtools)"
 RUN R -e ".libPaths()"
+RUN R -e "installed.packages()"
 RUN R -e "install_github('davidcarslaw/openair')"
 
 # copy model and scoring script
