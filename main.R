@@ -10,7 +10,6 @@
 library(plumber)
 library(openair)
 library(lubridate)
-library(tibble)
 
 
 #* Plot a time variations
