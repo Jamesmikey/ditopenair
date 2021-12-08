@@ -9,40 +9,101 @@
 
 library(plumber)
 library(openair)
+library(lubridate)
+library(tibble)
 
-#* @apiTitle Plumber Example API
-#* @apiDescription Plumber example description.
 
-#* Echo back the input
-#* @param msg The message to echo
-#* @get /echo
-function(msg = "") {
-  list(msg = paste0("The message is: '", msg, "'"))
+#* Plot a time variations
+#* @serializer png list(width=10,height=6,units='in',res=300)
+#* @post /plot/timeVariation
+function(data,pollutants,group,ylab='',normalize=FALSE,ci=FALSE,main='') {
+
+
+
+  data$date<- ymd_hms(data$date)
+
+  pollutants<-unlist(pollutants)
+
+
+  if(tolower(group) == tolower("NA")){
+    group<-NULL;
+  }
+
+  print(data)
+
+  if(is.null(group)){
+    timeVariation(as_tibble(data),pollutant=pollutants,normalise = normalize,ylab=ylab,ci = ci,main=main)
+  }else{
+    timeVariation(as_tibble(data),pollutant=pollutants,normalise = normalize,group = group,ylab=ylab,ci = ci,main=main)
+  }
+
 }
 
-#* Plot a histogram
-#* @serializer pdf
-#* @get /plot
-function() {
-  # load example data from package
-  data(mydata)
 
-  # basic plot
-  calendarPlot(mydata, pollutant = "o3", year = 2003)
+#* Plot a time variations
+#* @serializer pdf list(width=10,height=6)
+#* @post /plot/pdf/timeVariation
+function(data,pollutants,group,ylab='',normalize=FALSE,ci=FALSE,main='') {
+
+  data$date<- ymd_hms(data$date)
+
+  pollutants<-unlist(pollutants)
+
+
+  if(tolower(group) == tolower("NA")){
+    group<-NULL;
+  }
+
+  if(is.null(group)){
+    timeVariation(as_tibble(data),pollutant=pollutants,ylab=ylab,ci = ci,main=main,normalise = normalize)
+  }else{
+    timeVariation(as_tibble(data),pollutant=pollutants,group = group,ylab=ylab,ci = ci,main=main,normalise = normalize)
+  }
+
+
+
+
 }
 
-#* Return the sum of two numbers
-#* @param a The first number to add
-#* @param b The second number to add
-#* @post /sum
-function(a, b) {
-  as.numeric(a) + as.numeric(b)
+
+
+
+#* Plot a time variations
+#* @serializer png list(width=12,height=8,units='in',res=92)
+#* @post /plot/timePlot
+function(data,pollutants,cols='default',ylab='',avg.time='default',normalize=FALSE,normalise = normalize, type='default',stack=FALSE,main='') {
+
+  data$date<- ymd_hms(data$date)
+
+  pollutants<-unlist(pollutants)
+
+  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,ylab = ylab,avg.time=avg.time,type = type,stack = stack,main=main)
+
+
 }
 
-# Programmatically alter your API
-#* @plumber
-function(pr) {
-  pr %>%
-    # Overwrite the default serializer to return unboxed JSON
-    pr_set_serializer(serializer_unboxed_json())
+
+#* Plot a time variations
+#* @serializer pdf list(width=10,height=6)
+#* @post /plot/pdf/timePlot
+function(data,pollutants,cols='default',ylab='',avg.time='default',normalize=FALSE, type='default',stack=FALSE,main='') {
+
+  data$date<- ymd_hms(data$date)
+
+  pollutants<-unlist(pollutants)
+
+
+  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,ylab = ylab,avg.time=avg.time,type = type,stack = stack,main=main)
+
+
+}
+
+
+
+
+
+#* @filter cors
+cors <- function(res) {
+  res$setHeader("Access-Control-Allow-Origin", "*")
+  plumber::forward()
 }
