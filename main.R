@@ -77,7 +77,7 @@ function(data,pollutants,cols='default',ylab='',avg.time='default',normalize=FAL
 
   pollutants<-unlist(pollutants)
 
-  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,ylab = ylab,avg.time=avg.time,type = type,stack = stack,main=main)
+  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,ylab = ylab,normalize=normalize,avg.time=avg.time,type = type,stack = stack,main=main)
 
 
 }
@@ -93,7 +93,7 @@ function(data,pollutants,cols='default',ylab='',avg.time='default',normalize=FAL
   pollutants<-unlist(pollutants)
 
 
-  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,ylab = ylab,avg.time=avg.time,type = type,stack = stack,main=main)
+  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,normalize=normalize,ylab = ylab,avg.time=avg.time,type = type,stack = stack,main=main)
 
 
 }
