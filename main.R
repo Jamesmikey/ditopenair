@@ -14,13 +14,15 @@ library(tibble)
 
 
 #* Plot a time variations
-#* @serializer png list(width=10,height=6,units='in',res=300)
+#* @serializer svg list(width=11)
 #* @post /plot/timeVariation
 function(data,pollutants,group,ylab='',normalize=FALSE,ci=FALSE,main='') {
 
 
 
   data$date<- ymd_hms(data$date)
+
+  data
 
   pollutants<-unlist(pollutants)
 
@@ -41,7 +43,7 @@ function(data,pollutants,group,ylab='',normalize=FALSE,ci=FALSE,main='') {
 
 
 #* Plot a time variations
-#* @serializer pdf list(width=10,height=6)
+#* @serializer pdf list(paper = "a4r", width = 0, height = 7)
 #* @post /plot/pdf/timeVariation
 function(data,pollutants,group,ylab='',normalize=FALSE,ci=FALSE,main='') {
 
@@ -53,6 +55,8 @@ function(data,pollutants,group,ylab='',normalize=FALSE,ci=FALSE,main='') {
   if(tolower(group) == tolower("NA")){
     group<-NULL;
   }
+
+  par(mar=c(4,4,0.5,0.5))
 
   if(is.null(group)){
     timeVariation(as_tibble(data),pollutant=pollutants,ylab=ylab,ci = ci,main=main,normalise = normalize)
@@ -69,7 +73,7 @@ function(data,pollutants,group,ylab='',normalize=FALSE,ci=FALSE,main='') {
 
 
 #* Plot a time variations
-#* @serializer png list(width=12,height=8,units='in',res=92)
+#* @serializer svg list(width=11)
 #* @post /plot/timePlot
 function(data,pollutants,cols='default',ylab='',avg.time='default',normalize=FALSE,normalise = normalize, type='default',stack=FALSE,main='') {
 
@@ -77,14 +81,14 @@ function(data,pollutants,cols='default',ylab='',avg.time='default',normalize=FAL
 
   pollutants<-unlist(pollutants)
 
-  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,ylab = ylab,normalize=normalize,avg.time=avg.time,type = type,stack = stack,main=main)
+  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,ylab = ylab,avg.time=avg.time,type = type,stack = stack,main=main)
 
 
 }
 
 
 #* Plot a time variations
-#* @serializer pdf list(width=10,height=6)
+#* @serializer pdf list(paper = "a4r", width = 0, height = 7)
 #* @post /plot/pdf/timePlot
 function(data,pollutants,cols='default',ylab='',avg.time='default',normalize=FALSE, type='default',stack=FALSE,main='') {
 
@@ -93,7 +97,7 @@ function(data,pollutants,cols='default',ylab='',avg.time='default',normalize=FAL
   pollutants<-unlist(pollutants)
 
 
-  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,normalize=normalize,ylab = ylab,avg.time=avg.time,type = type,stack = stack,main=main)
+  timePlot(as_tibble(data),pollutant=pollutants,cols = cols,ylab = ylab,avg.time=avg.time,type = type,stack = stack,main=main)
 
 
 }
