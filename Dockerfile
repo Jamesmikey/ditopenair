@@ -7,6 +7,8 @@ RUN R -e "install.packages('tibble')"
 
 RUN R -e "install.packages('dplyr')"
 
+RUN R -e "install.packages('tidyr')"
+
 RUN R -e "library('openair')"
 
 
