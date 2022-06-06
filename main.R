@@ -56,7 +56,6 @@ function(data,pollutants,group,ylab='',normalize=FALSE,ci=FALSE,main='') {
     group<-NULL;
   }
 
-  par(mar=c(4,4,0.5,0.5))
 
   if(is.null(group)){
     timeVariation(as_tibble(data),pollutant=pollutants,ylab=ylab,ci = ci,main=main,normalise = normalize)

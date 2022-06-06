@@ -5,6 +5,8 @@ RUN R -e "install.packages('openair')"
 
 RUN R -e "install.packages('tibble')"
 
+RUN R -e "install.packages('dplyr')"
+
 RUN R -e "library('openair')"
 
 
